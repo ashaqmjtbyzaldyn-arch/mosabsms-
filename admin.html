@@ -3,92 +3,216 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>رفيق - Rafiq AI 👑</title>
+<title>رفيق - Rafiq AI</title>
 <style>
 *{box-sizing:border-box} body{margin:0;background:#f5f5f5;font-family:sans-serif;text-align:center}
-header{background:#000;color:#fff;padding:15px} header b{color:gold}
+header{background:#000;color:#fff;padding:15px}
 button{width:100%;padding:12px;border:0;border-radius:12px;margin:5px 0;font-weight:bold;cursor:pointer}
-input,select,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:5px 0}
+input,textarea{width:100%;padding:12px;border:1px solid #ddd;border-radius:12px;margin:5px 0}
 .card{background:#fff;padding:15px;border-radius:15px;margin:10px;text-align:right}
-.tabs{display:flex;gap:5px;overflow-x:auto;padding:10px} .tabs button{width:auto;padding:8px 14px;background:#fff}
-.proBtn{background:linear-gradient(135deg,#FFD700,#FF9800);color:#000}
+.tabs{display:flex;gap:5px;overflow-x:auto;padding:10px} .tabs button{width:auto;padding:8px 14px;background:#eee}
 </style>
 </head>
 <body>
-<header><b style="font-size:22px">🤖 رفيق Rafiq</b> <span id="proBadge" style="background:gold;color:#000;padding:3px 10px;border-radius:20px;font-size:12px">مجاني</span><p style="font-size:12px;color:#aaa">ذكاء اصطناعي سوداني - اعمل موقعك بنفسك</p></header>
 
-<div class="card" style="background:linear-gradient(135deg,#111,#333);color:#fff;text-align:center">
-<h2>👑 ترقية الذكاء الاصطناعي - زي ChatGPT Plus</h2>
-<p style="font-size:13px;color:#ccc">اشتراك بس - ما شحن ألعاب، ما شحن رصيد. بس اشتراك عشان تولد مواقع بدون حدود</p>
+<header><b style="font-size:22px">🤖 رفيق Rafiq</b> <span id="proBadge" style="background:gold;color:#000;padding:3px 10px;border-radius:20px;font-size:12px">مجاني</span></header>
+
+<div class="card" style="background:#111;color:#fff;text-align:center">
+<h2>👑 ترقية PRO - زي ChatGPT Plus</h2>
+<p style="font-size:12px;color:#ccc">اشتراك ذكاء اصطناعي بس - ما شحن ألعاب</p>
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
 <button onclick="buyPro('شهري','1000')" style="background:#fff;color:#000">شهري<br><b>1000 ج</b></button>
-<button onclick="buyPro('سنوي','5000')" class="proBtn">سنوي ⭐<br><b>5000 ج</b></button>
+<button onclick="buyPro('سنوي','5000')" style="background:gold;color:#000">سنوي ⭐<br><b>5000 ج</b></button>
 <button onclick="buyPro('سنتين','10000')" style="background:#fff;color:#000">سنتين<br><b>10000 ج</b></button>
 </div>
-<p style="font-size:11px;color:#aaa">الدفع: ماي كاش 759133 - مصعب إبراهيم الطيب</p><p id="proInfo"></p>
+<p style="font-size:11px">ماي كاش: <b>759133</b> - مصعب إبراهيم الطيب</p>
+<p id="proInfo"></p>
 </div>
 
 <div class="tabs">
 <button onclick="showSec('ai')">🤖 البرمجة</button>
 <button onclick="showSec('topup')">💎 شحن ألعاب</button>
 <button onclick="showSec('apps')">📱 التطبيقات</button>
-<button onclick="showSec('store')">🛒 السوق</button>
-<button onclick="showSec('donate')">❤️ تبرعات</button>
 </div>
 
 <div id="sec-ai" class="card">
-<h3>🤖 اعمل موقعك بالذكاء الاصطناعي</h3>
-<p style="font-size:12px">اكتب شنو داير، والذكاء يعمل ليك موقع كامل - حقك انت، حسابك انت</p>
-<textarea id="promptInput" placeholder="مثلا: اعمل لي موقع شحن ألعاب... / اعمل لي متجر... / اعمل لي تطبيق..."></textarea>
-<button onclick="generateCode()" style="background:#000;color:#fff">✨ ولد الموقع بالذكاء</button>
+<h3>🤖 اعمل موقعك بالذكاء</h3>
+<textarea id="promptInput" rows="3" placeholder="مثلا: اعمل لي موقع شحن ألعاب / اعمل لي تطبيق / اعمل لي متجر"></textarea>
+<button onclick="generateCode()" style="background:#000;color:#fff">✨ ولد الموقع</button>
 <div id="preview"></div>
 </div>
 
 <div id="sec-topup" class="card" style="display:none">
-<h3>💎 شحن ألعاب - رفيق ستور</h3>
-<p style="font-size:12px">ده مثال - أي زول يعمل موقع شحن، الموقع بكون حقو هو</p>
-<div id="topupList"></div>
+<h3>💎 شحن ألعاب - مثال</h3>
+<button onclick="chosen='PUBG 60 UC - 8500 ج';document.getElementById('sel').innerText='✅ '+chosen">PUBG 60 UC - 8500 ج</button>
+<button onclick="chosen='Free Fire 100 جوهرة - 9000 ج';document.getElementById('sel').innerText='✅ '+chosen">Free Fire 100 💎 - 9000 ج</button>
+<p id="sel">اختار باقة 👆</p>
 <input id="playerId" placeholder="ID اللاعب">
-<input id="playerName" placeholder="اسم اللاعب (اختياري)">
 <button onclick="confirmTopup()" style="background:#25D366;color:#fff">تأكيد الشحن 💎</button>
-<p id="topupMsg"></p>
 </div>
 
-<div id="sec-apps" class="card" style="display:none"><h3>📱 التطبيقات</h3><div id="appsList"></div></div>
-<div id="sec-store" class="card" style="display:none"><h3>🛒 السوق</h3><div style="background:#fff;padding:10px;border-radius:12px"><b>منتج تجريبي</b><br><button onclick="buyItem(this)" style="background:#000;color:#fff">اشتري</button></div></div>
-<div id="sec-donate" class="card" style="display:none"><h3>❤️ تبرعات</h3><input id="donateAmt" placeholder="المبلغ"><button onclick="donate()" style="background:#ff3b30;color:#fff">تبرع ❤️</button></div>
+<div id="sec-apps" class="card" style="display:none">
+<h3>📱 التطبيقات</h3>
+<p>دوس على البرمجة واكتب: اعمل لي تطبيق</p>
+</div>
 
-<div id="payModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center">
-<div style="background:#fff;width:90%;max-width:400px;padding:20px;border-radius:20px;text-align:center">
-<h2 id="payTitle">ترقية PRO</h2><p id="payDesc"></p>
-<div style="background:#111;color:#fff;padding:15px;border-radius:12px"><p>ماي كاش: <b style="color:#25D366;font-size:24px;letter-spacing:3px">759133</b></p><p>الاسم: مصعب إبراهيم الطيب</p><p>المبلغ: <b id="payAmount" style="color:gold"></b></p></div>
-<input id="payPhone" placeholder="رقم واتسابك - مثلا 0912345678">
+<div id="payModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:999;align-items:center;justify-content:center">
+<div style="background:#fff;width:90%;max-width:400px;padding:20px;border-radius:20px">
+<h2>ترقية PRO 👑</h2>
+<p>ماي كاش: <b style="font-size:22px">759133</b><br>الاسم: مصعب إبراهيم الطيب<br>المبلغ: <b id="payAmount"></b></p>
+<input id="payPhone" placeholder="رقم واتسابك">
 <input id="transId" placeholder="رقم العملية من ماي كاش">
-<button onclick="confirmPro()" style="background:#25D366;color:#fff">تأكيد الدفع ✅ وارسال الاشعار واتساب</button>
-<button onclick="document.getElementById('payModal').style.display='none'" style="background:#eee">اقفل</button>
+<button onclick="confirmPro()" style="background:#25D366;color:#fff">تأكيد الدفع ✅</button>
+<button onclick="closePay()" style="background:#eee">اقفل</button>
 </div></div>
 
+<!-- لوحة الإدارة - مرة واحدة بس -->
+<div id="adminSide" style="display:none;position:fixed;top:0;left:0;bottom:0;width:320px;max-width:90%;background:#111;color:#fff;z-index:1000;overflow-y:auto;text-align:right;padding:15px">
+<div style="display:flex;justify-content:space-between"><h2>👑 لوحة الإدارة</h2><button onclick="closeAdmin()" style="width:40px;background:#fff;color:#000">✕</button></div>
+<p id="adminOwner"></p>
+<div id="tab-dash"><h3>📊 اليوم</h3><p>زوار: 128 | طلبات: 12 | قروش اليوم: 450,000 ج</p></div>
+<h3>💳 حسابي - 6 أرقام</h3>
+<input id="myCashInput" maxlength="6" placeholder="123456 - 6 أرقام" style="text-align:center;font-size:20px;letter-spacing:4px" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)">
+<input id="myNameInput" placeholder="اسمك في ماي كاش">
+<input id="myWhatsInput" placeholder="واتسابك">
+<button onclick="saveMyWallet()" style="background:gold;color:#000">حفظ بياناتي 💾</button>
+<p id="walletMsg" style="color:#25D366"></p>
+<h3>🎮 منتجاتك</h3>
+<input id="newProdName" placeholder="اسم المنتج / التطبيق">
+<input id="newProdPrice" placeholder="السعر - 0 لو مجاني">
+<button onclick="addProduct()" style="background:gold;color:#000">أضف منتج ✅</button>
+<div id="productList"></div>
+</div>
+
 <script>
-let isPro=false, proPlan='', proUntil='', selectedPlan='', selectedPrice='', chosen='';
-let c={card:'#fff'};
-function showSec(id){ ['ai','topup','apps','store','donate'].forEach(s=>document.getElementById('sec-'+s).style.display='none'); document.getElementById('sec-'+id).style.display='block'; }
+let chosen = '';
+let selectedPlan = '', selectedPrice = '';
+let owner = {ownerName:'صاحب الموقع', siteName:'موقعي', myCash:'123456', myWhats:'0912345678', adminPass:'1234'};
+let genChosen = '';
 
-function buyPro(plan,price){ selectedPlan=plan; selectedPrice=price; document.getElementById('payTitle').innerText=`ترقية رفيق PRO - زي ChatGPT Plus 👑`; document.getElementById('payDesc').innerText=`اشتراك ذكاء اصطناعي متفوق - ما شحن ألعاب، ما شحن رصيد. بس اشتراك عشان تولد مواقع بدون حدود`; document.getElementById('payAmount').innerText=price+' جنيه'; document.getElementById('payModal').style.display='flex'; }
-function confirmPro(){ let trans=document.getElementById('transId').value; let phone=document.getElementById('payPhone').value; if(!trans||trans.length<5){alert('اكتب رقم العملية حق ماي كاش');return;} if(!phone||phone.length<10){alert('اكتب رقم واتسابك');return;} isPro=true; proPlan=selectedPlan; let days=selectedPlan==='شهري'?30:selectedPlan==='سنوي'?365:730; let until=new Date(); until.setDate(until.getDate()+days); proUntil=until.toLocaleDateString('ar-SD'); localStorage.setItem('rafiq_pro','true'); localStorage.setItem('rafiq_pro_plan',proPlan); document.getElementById('payModal').style.display='none'; document.getElementById('proBadge').innerText='PRO 👑 '+proPlan; document.getElementById('proInfo').innerText='🎉 مبروك! بقيت PRO '+proPlan+' حتى '+proUntil; let msg=`🔔 *اشعار دفع جديد - رفيق PRO*%0A%0A👤 الزبون: ${phone}%0A📦 الباقة: PRO ${selectedPlan}%0A💰 المبلغ: ${selectedPrice} جنيه%0A💳 الدفع: ماي كاش 759133 - مصعب إبراهيم الطيب%0A🔢 رقم العملية: ${trans}%0A✅ النوع: ترقية ذكاء اصطناعي، ما شحن`; alert('🎉 مبروك! بقيت PRO '+selectedPlan+' 👑\n\nهسي ح يفتح واتساب ويرسل الاشعار لمصعب'); window.open(`https://wa.me/249128525682?text=${msg}`,'_blank'); }
+function showSec(id){ ['ai','topup','apps'].forEach(s=>document.getElementById('sec-'+s).style.display='none'); document.getElementById('sec-'+id).style.display='block'; }
+function closePay(){ document.getElementById('payModal').style.display='none'; }
+function buyPro(plan,price){ selectedPlan=plan; selectedPrice=price; document.getElementById('payAmount').innerText=price+' جنيه'; document.getElementById('payModal').style.display='flex'; }
+function confirmPro(){
+  let trans=document.getElementById('transId').value;
+  let phone=document.getElementById('payPhone').value;
+  if(!trans || trans.length<5){ alert('اكتب رقم العملية'); return; }
+  if(!phone || phone.length<10){ alert('اكتب رقم واتسابك'); return; }
+  document.getElementById('payModal').style.display='none';
+  document.getElementById('proBadge').innerText='PRO 👑 '+selectedPlan;
+  document.getElementById('proInfo').innerText='🎉 مبروك! بقيت PRO '+selectedPlan;
+  let msg='اشعار PRO جديد%0Aالزبون: '+phone+'%0Aالباقة: '+selectedPlan+'%0Aالمبلغ: '+selectedPrice+'%0Aالعملية: '+trans;
+  alert('🎉 مبروك! بقيت PRO');
+  window.open('https://wa.me/249128525682?text='+msg,'_blank');
+}
 
-function askOwnerInfo(){ alert('🎉 الموقع ح يكون حقك انت، مالكو انت.\n\nهسي ح نسألك بياناتك، عشان الموقع يتعمل باسمك وحسابك انت.'); let ownerName=prompt('1/4 - اسمك الكامل؟')||'صاحب الموقع'; let siteName=prompt('2/4 - اسم موقعك شنو؟')||'موقعي'; let myCash=''; while(true){ myCash=prompt('3/4 - رقم محفظة ماي كاش حقك كم؟\n\n⚠️ لازم يكون 6 أرقام بالضبط\nمثلا: 123456\nمثلا: 759133')||''; myCash=myCash.trim().replace(/[^0-9]/g,''); if(myCash.length===6){break;} else{alert('❌ غلط! انت كتبت '+myCash.length+' أرقام\nلازم 6 أرقام بالضبط، زي 123456\nجرب تاني');} } let myWhats=prompt('4/4 - رقم واتسابك كم؟')||'0912345678'; let adminPass=prompt('اختر كلمة سر لوحة الإدارة حقتك - انت بس البتعرفها')||'1234'; return {ownerName,siteName,myCash,myWhats,adminPass}; }
+function askOwnerInfo(){
+  alert('الموقع ح يكون حقك انت');
+  let n = prompt('1/4 - اسمك الكامل؟');
+  if(n) owner.ownerName = n;
+  let s = prompt('2/4 - اسم موقعك؟');
+  if(s) owner.siteName = s;
+  while(true){
+    let c = prompt('3/4 - رقم محفظة ماي كاش حقك؟ لازم 6 أرقام مثلا 123456');
+    if(!c) break;
+    c = c.replace(/[^0-9]/g,'');
+    if(c.length===6){ owner.myCash=c; break; }
+    alert('غلط! انت كتبت '+c.length+' أرقام. لازم 6 أرقام زي 123456');
+  }
+  let w = prompt('4/4 - رقم واتسابك؟');
+  if(w) owner.myWhats = w;
+  let p = prompt('كلمة سر لوحة الإدارة حقتك؟');
+  if(p) owner.adminPass = p;
+}
 
-function getPaySection(owner){ return `<div style="background:#111;color:#fff;padding:15px;border-radius:15px;margin-top:12px;text-align:center"><h3>💳 الدفع - لصاحب الموقع</h3><div style="background:#222;padding:14px;border-radius:12px"><p style="margin:0;color:#aaa;font-size:12px">رقم محفظة ماي كاش - 6 أرقام</p><b style="color:#25D366;font-size:32px;letter-spacing:4px">${owner.myCash}</b><p style="margin:5px 0 0">الاسم: ${owner.ownerName}</p></div><button onclick="navigator.clipboard.writeText('${owner.myCash}');alert('تم نسخ رقم المحفظة: ${owner.myCash} ✅')" style="background:#FFD700;color:#000">📋 انسخ رقم المحفظة</button><a href="https://wa.me/249${owner.myWhats.slice(1)}" style="display:block;background:#25D366;color:#fff;padding:12px;border-radius:12px;text-decoration:none;font-weight:bold;margin-top:10px">ارسل الاشعار واتساب 💬 - لصاحب الموقع</a><p style="font-size:11px;color:#888">© الموقع حق ${owner.ownerName} - جميع الحقوق محفوظة ليهو</p></div>`; }
+function getPayHTML(){
+  return '<div style="background:#111;color:#fff;padding:15px;border-radius:15px;margin-top:10px;text-align:center">'
+  +'<h3>💳 الدفع - لصاحب الموقع</h3>'
+  +'<p>ماي كاش: <b style="color:#25D366;font-size:28px;letter-spacing:4px">'+owner.myCash+'</b></p>'
+  +'<p>الاسم: '+owner.ownerName+'</p>'
+  +'<button onclick="copyCash()" style="background:gold;color:#000">📋 انسخ رقم المحفظة</button>'
+  +'<a href="https://wa.me/249'+owner.myWhats.slice(1)+'" style="display:block;background:#25D366;color:#fff;padding:12px;border-radius:12px;text-decoration:none;margin-top:8px">ارسل الاشعار واتساب 💬</a></div>';
+}
+function copyCash(){ navigator.clipboard.writeText(owner.myCash); alert('تم نسخ: '+owner.myCash); }
 
-function getFullAdminPanel(owner){ return `<button onclick="openAdmin()" style="position:fixed;top:15px;left:15px;z-index:9999;width:55px;height:55px;border-radius:50%;background:#000;color:#fff;border:2px solid gold;font-size:24px">👑</button><div id="adminSide" style="display:none;position:fixed;top:0;left:0;bottom:0;width:320px;max-width:90%;background:#0f0f0f;color:#fff;z-index:10000;overflow-y:auto;text-align:right"><div style="background:linear-gradient(135deg,#FFD700,#FF9800);color:#000;padding:18px"><div style="display:flex;justify-content:space-between"><h2 style="margin:0">👑 لوحة الإدارة</h2><button onclick="closeAdmin()" style="width:35px;height:35px;border-radius:50%;background:#000;color:#fff;padding:0">✕</button></div><p>المالك: <b>${owner.ownerName}</b></p><p style="font-size:12px">الموقع: <b>${owner.siteName}</b></p></div><div style="display:flex;gap:5px;padding:10px;flex-wrap:wrap"><button onclick="showAdminTab('dash')" style="width:auto;padding:8px 12px;background:#FFD700;color:#000">📊 الرئيسية</button><button onclick="showAdminTab('orders')" style="width:auto;padding:8px 12px;background:#222;color:#fff">📦 الطلبات</button><button onclick="showAdminTab('products')" style="width:auto;padding:8px 12px;background:#222;color:#fff">🎮 المنتجات</button><button onclick="showAdminTab('users')" style="width:auto;padding:8px 12px;background:#222;color:#fff">👥 الزباين</button><button onclick="showAdminTab('wallet')" style="width:auto;padding:8px 12px;background:#222;color:#fff">💳 حسابي</button><button onclick="showAdminTab('settings')" style="width:auto;padding:8px 12px;background:#222;color:#fff">⚙️ إعدادات</button></div><div id="tab-dash" class="adminTabContent" style="padding:0 15px 15px"><h3>📊 اليوم</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><div style="background:#222;padding:14px;border-radius:14px;text-align:center"><b style="font-size:22px;color:#FFD700">128</b><br><small>زائر</small></div><div style="background:#222;padding:14px;border-radius:14px;text-align:center"><b style="font-size:22px;color:#25D366">12</b><br><small>طلب</small></div><div style="background:#222;padding:14px;border-radius:14px;text-align:center"><b style="font-size:22px;color:orange">450,000</b><br><small>جنيه اليوم</small></div><div style="background:#222;padding:14px;border-radius:14px;text-align:center"><b style="font-size:22px">120,000</b><br><small>ربح صافي</small></div></div><button onclick="alert('تم تحميل تقرير اليوم ✅')" style="background:#fff;color:#000;margin-top:10px">📥 تحميل تقرير اليوم</button></div><div id="tab-orders" class="adminTabContent" style="display:none;padding:0 15px 15px"><h3>📦 الطلبات</h3><div style="background:#222;padding:12px;border-radius:12px;font-size:13px">🆔 #1023 - طلب جديد<br><small style="color:orange">⏳ قيد التنفيذ</small><br><button onclick="alert('تم الشحن ✅')" style="width:auto;padding:6px 12px;background:#25D366;color:#fff">✅ تم</button> <button onclick="this.parentElement.remove()" style="width:auto;padding:6px 12px;background:#ff3b30;color:#fff">❌ رفض</button></div></div><div id="tab-products" class="adminTabContent" style="display:none;padding:0 15px 15px"><h3>🎮 منتجاتك / تطبيقاتك</h3><div id="productList"></div><input id="newProdName" placeholder="اسم المنتج / التطبيق / الباقة" style="background:#222"><input id="newProdPrice" placeholder="السعر - 0 لو مجاني" style="background:#222"><input id="newProdLink" placeholder="رابط التحميل لو تطبيق" style="background:#222"><button onclick="addProduct()" style="background:#FFD700;color:#000">أضف ✅</button></div><div id="tab-users" class="adminTabContent" style="display:none;padding:0 15px 15px"><h3>👥 الزباين (86)</h3><div style="background:#222;padding:12px;border-radius:12px;font-size:13px">⭐ أحمد - 0912345678 - اشترى 5 مرات<br>مصعب - 0923456789 - زبون دائم</div><button onclick="alert('تم تصدير أرقام الزباين ✅')" style="background:#25D366;color:#fff;margin-top:10px">📤 تصدير أرقام الزباين</button></div><div id="tab-wallet" class="adminTabContent" style="display:none;padding:0 15px 15px"><h3>💳 حسابي - القروش بتمشي ليك هنا</h3><p style="font-size:12px;color:#aaa">دي بياناتك انت، المالك. غيرها براك.</p><label>رقم ماي كاش حقك - 6 أرقام:</label><input id="myCashInput" value="${owner.myCash}" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" placeholder="123456" style="background:#222;text-align:center;font-size:22px;letter-spacing:5px"><label>اسمك في ماي كاش:</label><input id="myNameInput" value="${owner.ownerName}" style="background:#222"><label>واتسابك:</label><input id="myWhatsInput" value="${owner.myWhats}" style="background:#222"><label>اسم موقعك:</label><input id="mySiteInput" value="${owner.siteName}" style="background:#222"><button onclick="saveMyWallet()" style="background:#FFD700;color:#000">حفظ بياناتي 💾 - دي حقتي أنا</button><p id="walletMsg" style="color:#25D366"></p></div><div id="tab-settings" class="adminTabContent" style="display:none;padding:0 15px 15px"><h3>⚙️ إعدادات الموقع</h3><input placeholder="رسالة الترحيب" style="background:#222"><select style="background:#222"><option>✅ شغال</option><option>⏸️ مقفول - صيانة</option></select><input id="newAdminPass" placeholder="كلمة سر جديدة" style="background:#222"><button onclick="alert('تم تغيير كلمة السر ✅')" style="background:#fff;color:#000">تغيير كلمة السر 🔐</button><p style="text-align:center;color:#555;font-size:11px">© جميع الحقوق محفوظة لـ ${owner.ownerName}</p></div></div><script>let myAdminPass='${owner.adminPass}'; function openAdmin(){let p=prompt('👑 كلمة سر لوحة الإدارة حقتك يا ${owner.ownerName}:'); if(p!==myAdminPass){alert('كلمة السر غلط - دي لوحة المالك بس ❌');return;} document.getElementById('adminSide').style.display='block';} function closeAdmin(){document.getElementById('adminSide').style.display='none';} function showAdminTab(t){document.querySelectorAll('.adminTabContent').forEach(d=>d.style.display='none'); document.getElementById('tab-'+t).style.display='block';} function addProduct(){let n=document.getElementById('newProdName').value; let p=document.getElementById('newProdPrice').value; if(!n||!p){alert('اكتب الاسم والسعر');return;} document.getElementById('productList').innerHTML+='<div style="background:#222;padding:10px;border-radius:10px;margin-bottom:6px">'+n+' - '+p+' ج ✅</div>'; alert('تمت إضافة '+n+' لموقعك ✅');} function saveMyWallet(){let cash=document.getElementById('myCashInput').value.trim().replace(/[^0-9]/g,''); if(cash.length!==6){alert('❌ رقم المحفظة غلط! لازم 6 أرقام بالضبط، زي 123456');return;} let name=document.getElementById('myNameInput').value; localStorage.setItem('owner_cash',cash); document.getElementById('walletMsg').innerText='✅ تم حفظ حسابك: '+cash+' - يا '+name; alert('تم ✅ حسابك الجديد: '+cash);}<\/script>`; }
+function openAdmin(){
+  let p = prompt('كلمة سر لوحة الإدارة يا '+owner.ownerName+' :');
+  if(p !== owner.adminPass){ alert('كلمة السر غلط'); return; }
+  document.getElementById('adminOwner').innerText = 'المالك: '+owner.ownerName+' | الموقع: '+owner.siteName;
+  document.getElementById('myCashInput').value = owner.myCash;
+  document.getElementById('myNameInput').value = owner.ownerName;
+  document.getElementById('myWhatsInput').value = owner.myWhats;
+  document.getElementById('adminSide').style.display='block';
+}
+function closeAdmin(){ document.getElementById('adminSide').style.display='none'; }
+function saveMyWallet(){
+  let c = document.getElementById('myCashInput').value.replace(/[^0-9]/g,'');
+  if(c.length!==6){ alert('لازم 6 أرقام زي 123456'); return; }
+  owner.myCash = c;
+  owner.ownerName = document.getElementById('myNameInput').value || owner.ownerName;
+  owner.myWhats = document.getElementById('myWhatsInput').value || owner.myWhats;
+  document.getElementById('walletMsg').innerText = '✅ تم حفظ حسابك: '+c;
+  alert('تم ✅ حسابك الجديد: '+c);
+}
+function addProduct(){
+  let n=document.getElementById('newProdName').value;
+  let pr=document.getElementById('newProdPrice').value;
+  if(!n||!pr){ alert('اكتب الاسم والسعر'); return; }
+  document.getElementById('productList').innerHTML += '<div style="background:#222;padding:10px;border-radius:10px;margin:5px 0">'+n+' - '+pr+' ج ✅</div>';
+}
 
-function generateCode(){ let prompt=(document.getElementById('promptInput').value||'').toLowerCase(); if(!prompt){alert('اكتب شنو داير تعمل');return;} let owner=askOwnerInfo(); let title='', body=''; if(prompt.includes('شحن')||prompt.includes('ببجي')||prompt.includes('العاب')||prompt.includes('فري فاير')){ let pubg60=prompt('كم سعر PUBG 60 UC عندك انت؟')||'8500'; let ff100=prompt('كم سعر Free Fire 100 جوهرة عندك انت؟')||'9000'; title=owner.siteName+' 💎'; body=`<h1>💎 ${owner.siteName}</h1><p>👑 المالك: ${owner.ownerName}</p><div style="background:#fff;padding:15px;border-radius:15px;text-align:right"><h3>🔫 PUBG</h3><button onclick="selectTopup('PUBG - 60 UC','${pubg60}')">60 UC - ${pubg60} ج</button><h3>🔥 Free Fire</h3><button onclick="selectTopup('Free Fire - 100 جوهرة','${ff100}')">100 💎 - ${ff100} ج</button></div><div style="background:#fff;padding:15px;border-radius:15px;margin-top:10px"><p id="selectedPack">اختار باقة 👆</p><input id="playerId2" placeholder="ID اللاعب"><button onclick="confirmTopup2()" style="background:#25D366;color:#fff">تأكيد الشحن</button></div>${getPaySection(owner)}${getFullAdminPanel(owner)}<script>let chosen='';function selectTopup(n,p){chosen=n+' - '+p+' ج';document.getElementById('selectedPack').innerText='✅ '+chosen;}function confirmTopup2(){let id=document.getElementById('playerId2').value; if(!chosen){alert('اختار باقة');return;} if(!id){alert('اكتب ID');return;} let msg='🎮 طلب شحن - ${owner.siteName}%0A📦 '+chosen+'%0A🆔 ID: '+id+'%0A💳 ماي كاش: ${owner.myCash} - ${owner.ownerName}'; window.open('https://wa.me/249${owner.myWhats.slice(1)}?text='+msg,'_blank');}<\/script>`; } else if(prompt.includes('تطبيق')||prompt.includes('app')){ let app1=prompt('اسم التطبيق الأول؟')||'تطبيقي'; let price1=prompt('سعر التطبيق؟ 0 لو مجاني')||'0'; title=owner.siteName+' 📱'; body=`<h1>📱 ${owner.siteName}</h1><p>👑 المالك: ${owner.ownerName}</p><div style="background:#fff;padding:15px;border-radius:15px;text-align:center"><div style="font-size:40px">📱</div><b>${app1}</b><br><b style="color:#25D366">${price1=='0'?'مجاني 🎉':price1+' ج'}</b><br><button onclick="buyApp('${app1}','${price1}')" style="background:#000;color:#fff">اشتري / تحميل</button></div>${getPaySection(owner)}${getFullAdminPanel(owner)}<script>function buyApp(n,p){if(p==='0'){alert('تحميل '+n+' مجاني 🎉');return;} let msg='📱 طلب تطبيق - ${owner.siteName}%0A📱 '+n+'%0A💰 '+p+' ج%0A💳 ماي كاش: ${owner.myCash}'; window.open('https://wa.me/249${owner.myWhats.slice(1)}?text='+msg,'_blank');}<\/script>`; } else { let prod1=prompt('اسم أول منتج / خدمة عندك؟')||'منتجي'; let price1=prompt('سعر المنتج ده عندك؟')||'10000'; title=owner.siteName; body=`<h1>🛒 ${owner.siteName}</h1><p>👑 المالك: ${owner.ownerName}</p><div style="background:#fff;padding:15px;border-radius:15px"><b>${prod1}</b> - ${price1} ج<br><button onclick="buyGen('${prod1}','${price1}')" style="background:#000;color:#fff">اشتري</button></div>${getPaySection(owner)}${getFullAdminPanel(owner)}<script>function buyGen(n,p){let msg='🛒 طلب جديد - ${owner.siteName}%0A📦 '+n+'%0A💰 '+p+' ج%0A💳 ماي كاش: ${owner.myCash}'; window.open('https://wa.me/249${owner.myWhats.slice(1)}?text='+msg,'_blank');}<\/script>`; } document.getElementById('preview').innerHTML=`<div style="background:#fff;border:2px solid gold;border-radius:15px;padding:15px;margin-top:10px"><h2>${title}</h2>${body}<button onclick="document.getElementById('preview').innerHTML=''" style="background:#eee">اقفل المعاينة</button></div>`; alert('🎉 تم! الموقع بقى حقك يا '+owner.ownerName+'\nحسابك: '+owner.myCash+'\nلوحة الإدارة: دوس 👑'); }
+function generateCode(){
+  let prompt = (document.getElementById('promptInput').value||'').toLowerCase();
+  if(!prompt){ alert('اكتب شنو داير تعمل'); return; }
+  askOwnerInfo();
+  let html = '';
+  if(prompt.includes('شحن')||prompt.includes('ببجي')||prompt.includes('العاب')||prompt.includes('فري')){
+    let p1 = prompt('كم سعر PUBG 60 UC عندك؟')||'8500';
+    let p2 = prompt('كم سعر Free Fire 100 جوهرة عندك؟')||'9000';
+    html = '<h2>💎 '+owner.siteName+'</h2><p>👑 المالك: '+owner.ownerName+'</p>'
+    +'<button onclick="genChosen=\'PUBG 60 UC - '+p1+' ج\';document.getElementById(\'genSel\').innerText=\'✅ \'+genChosen">PUBG 60 UC - '+p1+' ج</button>'
+    +'<button onclick="genChosen=\'Free Fire 100 - '+p2+' ج\';document.getElementById(\'genSel\').innerText=\'✅ \'+genChosen">Free Fire 100 💎 - '+p2+' ج</button>'
+    +'<p id="genSel">اختار باقة 👆</p><input id="genPlayerId" placeholder="ID اللاعب">'
+    +'<button onclick="confirmGenTopup()" style="background:#25D366;color:#fff">تأكيد الشحن</button>';
+  } else if(prompt.includes('تطبيق')||prompt.includes('app')){
+    let a1 = prompt('اسم التطبيق؟')||'تطبيقي';
+    let pr = prompt('سعر التطبيق؟ 0 لو مجاني')||'0';
+    html = '<h2>📱 '+owner.siteName+'</h2><p>👑 المالك: '+owner.ownerName+'</p>'
+    +'<div style="background:#fff;padding:15px;border-radius:12px"><b>'+a1+'</b><br><b style="color:#25D366">'+(pr=='0'?'مجاني 🎉':pr+' ج')+'</b><br>'
+    +'<button onclick="buyGenApp(\''+a1+'\',\''+pr+'\')" style="background:#000;color:#fff">اشتري / تحميل</button></div>';
+  } else {
+    let prod = prompt('اسم أول منتج عندك؟')||'منتجي';
+    let pr = prompt('سعر المنتج عندك؟')||'10000';
+    html = '<h2>🛒 '+owner.siteName+'</h2><p>👑 المالك: '+owner.ownerName+'</p>'
+    +'<div style="background:#fff;padding:15px;border-radius:12px"><b>'+prod+'</b> - '+pr+' ج<br>'
+    +'<button onclick="buyGenApp(\''+prod+'\',\''+pr+'\')" style="background:#000;color:#fff">اشتري</button></div>';
+  }
+  html += getPayHTML();
+  html += '<button onclick="openAdmin()" style="background:#000;color:gold;border:2px solid gold">👑 افتح لوحة الإدارة</button>';
+  html += '<button onclick="document.getElementById(\'preview\').innerHTML=\'\'" style="background:#eee">اقفل المعاينة</button>';
+  document.getElementById('preview').innerHTML = '<div style="background:#fff;border:2px solid gold;border-radius:15px;padding:15px;margin-top:10px">'+html+'</div>';
+  alert('🎉 تم! الموقع بقى حقك يا '+owner.ownerName+'\nحسابك: '+owner.myCash);
+}
 
-document.getElementById('topupList').innerHTML=`<button onclick="chosen='PUBG - 60 UC - 8500 ج'">PUBG 60 UC - 8500 ج</button><button onclick="chosen='Free Fire - 100 جوهرة - 9000 ج'">Free Fire 100 💎 - 9000 ج</button>`;
-function confirmTopup(){ let id=document.getElementById('playerId').value; if(!chosen){alert('اختار باقة');return;} if(!id){alert('اكتب ID');return;} document.getElementById('topupMsg').innerText='✅ تم استلام طلبك: '+chosen; let msg=`🎮 *طلب شحن جديد*%0A📦 ${chosen}%0A🆔 ID: ${id}%0A💳 ماي كاش 759133`; window.open(`https://wa.me/249128525682?text=${msg}`,'_blank'); }
-function buyItem(el){ let msg=`🛒 طلب شراء جديد%0A📅 ${new Date().toLocaleString('ar-SD')}`; window.open(`https://wa.me/249128525682?text=${msg}`,'_blank'); }
-function donate(){ let a=document.getElementById('donateAmt').value; if(!a){alert('اكتب المبلغ');return;} let msg=`❤️ تبرع جديد%0A💰 ${a} جنيه%0A💳 ماي كاش 759133`; window.open(`https://wa.me/249128525682?text=${msg}`,'_blank'); }
-document.getElementById('appsList').innerHTML=`<button onclick="alert('دوس على البرمجة واكتب: اعمل لي تطبيق')">📱 اعمل تطبيقك بالذكاء - دوس هنا</button>`;
+function confirmGenTopup(){
+  let id = document.getElementById('genPlayerId').value;
+  if(!genChosen){ alert('اختار باقة'); return; }
+  if(!id){ alert('اكتب ID'); return; }
+  let msg = 'طلب شحن - '+owner.siteName+'%0A'+genChosen+'%0AID: '+id+'%0Aماي كاش: '+owner.myCash;
+  window.open('https://wa.me/249'+owner.myWhats.slice(1)+'?text='+msg,'_blank');
+}
+function buyGenApp(n,p){
+  if(p=='0'){ alert('تحميل '+n+' مجاني 🎉'); return; }
+  let msg = 'طلب جديد - '+owner.siteName+'%0A'+n+'%0Aالسعر: '+p+' ج%0Aماي كاش: '+owner.myCash;
+  window.open('https://wa.me/249'+owner.myWhats.slice(1)+'?text='+msg,'_blank');
+}
+function confirmTopup(){
+  let id=document.getElementById('playerId').value;
+  if(!chosen){ alert('اختار باقة'); return; }
+  if(!id){ alert('اكتب ID'); return; }
+  let msg='طلب شحن%0A'+chosen+'%0AID: '+id;
+  window.open('https://wa.me/249128525682?text='+msg,'_blank');
+}
 </script>
 </body>
 </html>
