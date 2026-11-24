@@ -22,12 +22,45 @@ main{max-width:1150px;margin:auto;padding:30px 20px 70px}.hero{display:grid;grid
 .order-list{display:grid;gap:10px}.order{background:#0c1222;border:1px solid var(--line);padding:14px;border-radius:13px;display:grid;grid-template-columns:1fr auto;gap:10px}.status{color:#fcd34d;font-size:13px}.order-actions{display:flex;gap:7px;flex-wrap:wrap}.order-actions button{padding:7px 10px;font-size:12px}
 footer{border-top:1px solid var(--line);padding:25px 20px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:#000a;z-index:10;display:grid;place-items:center;padding:18px}.modal-card{width:min(560px,100%);max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px}
+
+.wallet-mini{font-size:13px;color:var(--muted)}
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:20px}.games{grid-template-columns:1fr}.cover{height:110px}.form-grid{grid-template-columns:1fr}.nav{align-items:flex-start;flex-direction:column}.order{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header><div class="nav"><div class="brand">KASHK <span>GAMING</span> 🎮</div><nav><button class="outline" onclick="go('games')">الألعاب</button><button class="outline" onclick="go('orders')">طلباتي</button><button class="primary" onclick="toggleAdmin()">لوحة الإدارة</button></nav></div></header>
 <main>
+
+<section id="auth" class="panel">
+ <div class="section-head"><div><h2>الحساب والمحفظة</h2><div class="muted">أنشئ حساباً أو سجّل الدخول للوصول إلى نقاطك ومحفظتك</div></div><span id="authState" class="status">غير مسجل الدخول</span></div>
+ <div id="authForms" class="form-grid">
+  <div>
+   <h3>إنشاء حساب جديد</h3>
+   <div class="field"><label>الاسم</label><input id="regName" placeholder="اسم المستخدم"></div>
+   <div class="field"><label>رقم الهاتف</label><input id="regPhone" placeholder="رقم الهاتف"></div>
+   <div class="field"><label>كلمة المرور</label><input id="regPass" type="password" placeholder="6 أحرف على الأقل"></div>
+   <button class="primary" onclick="registerUser()">إنشاء الحساب</button>
+  </div>
+  <div>
+   <h3>تسجيل الدخول</h3>
+   <div class="field"><label>رقم الهاتف</label><input id="loginPhone" placeholder="رقم الهاتف"></div>
+   <div class="field"><label>كلمة المرور</label><input id="loginPass" type="password" placeholder="كلمة المرور"></div>
+   <button onclick="loginUser()">تسجيل الدخول</button>
+  </div>
+ </div>
+ <div id="walletArea" class="hidden">
+  <div class="form-grid">
+   <div class="panel" style="margin:0"><div class="muted">مرحباً</div><h3 id="welcomeName"></h3><div class="muted">رقم المحفظة</div><div style="font-size:30px;font-weight:900;letter-spacing:5px;color:var(--cyan)" id="walletNumber">----</div></div>
+   <div class="panel" style="margin:0"><div class="muted">رصيد النقاط</div><div style="font-size:36px;font-weight:900;color:var(--green)"><span id="pointsBalance">0</span> نقطة</div><button class="outline" onclick="logoutUser()">تسجيل الخروج</button></div>
+  </div>
+  <div class="form-grid" style="margin-top:16px">
+   <div><h3>تحويل نقاط</h3><div class="field"><label>رقم محفظة المستلم (4 أرقام)</label><input id="transferWallet" inputmode="numeric" maxlength="4" placeholder="مثال: 4821"></div><div class="field"><label>عدد النقاط</label><input id="transferAmount" type="number" min="1" step="1" placeholder="عدد النقاط"></div><button class="primary" onclick="transferPoints()">تحويل النقاط</button><div id="transferMsg"></div></div>
+   <div><h3>سجل التحويلات</h3><div id="transactions" class="order-list"><div class="muted">لا توجد تحويلات.</div></div></div>
+  </div>
+ </div>
+ <div class="notice">تنبيه: هذه نسخة HTML تجريبية؛ الحسابات وكلمات المرور والأرصدة محفوظة داخل متصفح هذا الجهاز فقط، وليست آمنة للاستخدام المالي الحقيقي. لا تودع أموالاً حقيقية فيها.</div>
+</section>
+
 <section class="hero"><div><div class="eyebrow">اشحن لعبتك بسهولة وأمان</div><h1>عالم الألعاب،<br><span style="color:var(--cyan)">وشحنتك علينا.</span></h1><p>اختر لعبتك وباقتك، أدخل بيانات اللاعب، ثم أرسل طلبك مع إثبات التحويل. تتم مراجعة الطلب يدوياً من الإدارة.</p><button class="primary" onclick="go('games')">ابدأ الشحن الآن ←</button></div><div class="hero-art"><div><div class="emoji">⚡🎮💎</div><strong>Kashk Gaming</strong><span class="muted">Top up your game</span></div></div></section>
 <section id="games"><div class="section-head"><div><h2>اختر اللعبة</h2><div class="muted">الألعاب المتاحة للشحن</div></div></div>
 <div class="games">
@@ -54,33 +87,81 @@ const catalog={
  'PUBG Mobile':[{name:'60 UC',price:'حدد السعر'},{name:'325 UC',price:'حدد السعر'},{name:'660 UC',price:'حدد السعر'},{name:'1800 UC',price:'حدد السعر'}],
  'Blood Strike':[{name:'100 Gold',price:'حدد السعر'},{name:'300 Gold',price:'حدد السعر'},{name:'500 Gold',price:'حدد السعر'}]
 };
-let currentGame='',currentPackage=null;
+let currentGame='',currentPackage=null,currentWallet=null;
 const $=id=>document.getElementById(id);
+function read(key, fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch(e){return fallback}}
+function write(key,val){localStorage.setItem(key,JSON.stringify(val))}
+function users(){return read('kashkUsers',[])}
+function current(){let id=localStorage.getItem('kashkCurrentWallet');return users().find(u=>u.wallet===id)||null}
+function makeWallet(){let used=users().map(u=>u.wallet);for(let i=0;i<10000;i++){let n=String(Math.floor(1000+Math.random()*9000));if(!used.includes(n))return n}throw new Error('تعذر إنشاء رقم محفظة متاح')}
+function registerUser(){
+ let name=$('regName').value.trim(),phone=$('regPhone').value.trim(),pass=$('regPass').value;
+ if(!name||!phone||pass.length<6)return alert('أدخل الاسم والهاتف وكلمة مرور من 6 أحرف على الأقل');
+ if(users().some(u=>u.phone===phone))return alert('رقم الهاتف مسجل مسبقاً');
+ let u={name,phone,pass,wallet:makeWallet(),points:0,created:new Date().toISOString()};
+ let a=users();a.push(u);write('kashkUsers',a);localStorage.setItem('kashkCurrentWallet',u.wallet);refreshAccount();
+ alert('تم إنشاء الحساب. رقم محفظتك: '+u.wallet);
+}
+function loginUser(){
+ let phone=$('loginPhone').value.trim(),pass=$('loginPass').value;
+ let u=users().find(x=>x.phone===phone&&x.pass===pass);
+ if(!u)return alert('رقم الهاتف أو كلمة المرور غير صحيحة');
+ localStorage.setItem('kashkCurrentWallet',u.wallet);refreshAccount();
+}
+function logoutUser(){localStorage.removeItem('kashkCurrentWallet');refreshAccount()}
+function refreshAccount(){
+ let u=current();currentWallet=u?u.wallet:null;
+ $('authForms').classList.toggle('hidden',!!u);$('walletArea').classList.toggle('hidden',!u);
+ $('authState').textContent=u?'مسجل الدخول':'غير مسجل الدخول';
+ if(u){$('welcomeName').textContent=u.name;$('walletNumber').textContent=u.wallet;$('pointsBalance').textContent=u.points;renderTransactions()}
+ renderOrders();
+}
+function getTransactions(){return read('kashkTransactions',[])}
+function renderTransactions(){
+ let u=current();if(!u)return;let list=getTransactions().filter(t=>t.from===u.wallet||t.to===u.wallet);
+ $('transactions').innerHTML=list.length?'':'<div class="muted">لا توجد تحويلات.</div>';
+ list.slice().reverse().forEach(t=>{let d=document.createElement('div');d.className='order';let incoming=t.to===u.wallet;d.innerHTML='<div><b>'+(incoming?'نقاط مستلمة':'نقاط مرسلة')+'</b><div class="muted">'+(incoming?'من محفظة ':'إلى محفظة ')+(incoming?t.from:t.to)+'</div></div><b style="color:'+(incoming?'var(--green)':'var(--red)')+'">'+(incoming?'+':'−')+t.amount+'</b>';$('transactions').appendChild(d)});
+}
+function transferPoints(){
+ let from=current(),toWallet=$('transferWallet').value.trim(),amount=Number($('transferAmount').value);
+ if(!from)return alert('سجّل الدخول أولاً');
+ if(!/^\d{4}$/.test(toWallet))return alert('رقم المحفظة يجب أن يتكون من 4 أرقام');
+ if(!Number.isSafeInteger(amount)||amount<1)return alert('أدخل عدداً صحيحاً من النقاط');
+ if(toWallet===from.wallet)return alert('لا يمكنك التحويل إلى محفظتك نفسها');
+ let a=users(),sender=a.find(x=>x.wallet===from.wallet),receiver=a.find(x=>x.wallet===toWallet);
+ if(!receiver)return alert('رقم المحفظة غير موجود');
+ if(sender.points<amount)return alert('رصيد النقاط غير كافٍ');
+ sender.points-=amount;receiver.points+=amount;write('kashkUsers',a);
+ let tx=getTransactions();tx.push({from:sender.wallet,to:receiver.wallet,amount,date:new Date().toISOString()});write('kashkTransactions',tx);
+ $('transferWallet').value='';$('transferAmount').value='';$('transferMsg').innerHTML='<div class="success">تم تحويل '+amount+' نقطة إلى المحفظة '+toWallet+'</div>';
+ refreshAccount();
+}
 function go(id){$(id).scrollIntoView({behavior:'smooth',block:'start'})}
 function chooseGame(game,emoji){currentGame=game;currentPackage=null;$('selectedTitle').textContent=emoji+' طلب شحن '+game;$('packages').innerHTML='';
-catalog[game].forEach((p,i)=>{let el=document.createElement('button');el.className='pkg';el.innerHTML='<b>'+p.name+'</b><small>'+p.price+'</small>';el.onclick=()=>{document.querySelectorAll('.pkg').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');currentPackage=p.name};$('packages').appendChild(el)});
+catalog[game].forEach(p=>{let el=document.createElement('button');el.className='pkg';el.innerHTML='<b>'+p.name+'</b><small>'+p.price+'</small>';el.onclick=()=>{document.querySelectorAll('.pkg').forEach(x=>x.classList.remove('selected'));el.classList.add('selected');currentPackage=p.name};$('packages').appendChild(el)});
 $('checkout').classList.remove('hidden');go('checkout')}
 function closeCheckout(){$('checkout').classList.add('hidden')}
-function getOrders(){try{return JSON.parse(localStorage.getItem('kashkOrders')||'[]')}catch(e){return []}}
-function saveOrders(a){localStorage.setItem('kashkOrders',JSON.stringify(a))}
+function getOrders(){return read('kashkOrders',[])}
+function saveOrders(a){write('kashkOrders',a)}
 function submitOrder(){
- const player=$('player').value.trim(),contact=$('contact').value.trim(),file=$('receipt').files[0];
+ const user=current(),player=$('player').value.trim(),contact=$('contact').value.trim(),file=$('receipt').files[0];
+ if(!user){alert('أنشئ حساباً أو سجّل الدخول أولاً');go('auth');return}
  if(!currentGame||!currentPackage)return alert('اختر باقة الشحن أولاً');
  if(!player||!contact)return alert('أدخل Player ID ورقم التواصل');
  if(!file)return alert('أرفق صورة إيصال التحويل');
  if(file.size>5*1024*1024)return alert('حجم الصورة يجب ألا يتجاوز 5MB');
- const order={id:'KG'+Date.now().toString().slice(-8),game:currentGame,pack:currentPackage,player,name:$('playerName').value.trim(),contact,ref:$('paymentRef').value.trim(),receipt:file.name,notes:$('notes').value.trim(),status:'قيد المراجعة',date:new Date().toLocaleString('ar')};
+ const order={id:'KG'+Date.now().toString().slice(-8),wallet:user.wallet,game:currentGame,pack:currentPackage,player,name:$('playerName').value.trim(),contact,ref:$('paymentRef').value.trim(),receipt:file.name,notes:$('notes').value.trim(),status:'قيد المراجعة',date:new Date().toLocaleString('ar')};
  let a=getOrders();a.unshift(order);saveOrders(a);
- $('result').innerHTML='<div class="success">تم تسجيل طلبك محلياً. رقم الطلب: <b>'+order.id+'</b><br>احتفظ برقم الطلب وتواصل مع الإدارة لإرسال صورة الإيصال؛ رفع الصورة إلى خادم غير مفعّل في هذه النسخة.</div>';
+ $('result').innerHTML='<div class="success">تم تسجيل طلبك محلياً. رقم الطلب: <b>'+order.id+'</b><br>صورة الإيصال لا تُرفع إلى خادم في هذه النسخة.</div>';
  ['player','playerName','contact','paymentRef','notes','receipt'].forEach(id=>$(id).value='');renderOrders();
 }
 function renderOrders(){
- let a=getOrders();$('myOrders').innerHTML=a.length?'':'<div class="muted">لا توجد طلبات حتى الآن.</div>';
+ let u=current(),a=getOrders().filter(o=>u?o.wallet===u.wallet:false);$('myOrders').innerHTML=a.length?'':'<div class="muted">سجّل الدخول لعرض طلباتك، أو لا توجد طلبات حتى الآن.</div>';
  a.forEach(o=>{let d=document.createElement('div');d.className='order';d.innerHTML='<div><b>'+o.game+' — '+o.pack+'</b><div class="muted">رقم الطلب: '+o.id+' · Player ID: '+o.player+'</div><div class="status">'+o.status+'</div></div><div class="muted">'+o.date+'</div>';$('myOrders').appendChild(d)});
 }
 function toggleAdmin(){$('admin').classList.toggle('hidden');if(!$('admin').classList.contains('hidden'))go('admin')}
 function adminLogin(){if($('adminPin').value!=='1234')return alert('رمز غير صحيح');$('adminArea').classList.remove('hidden');renderAdmin()}
-function renderAdmin(){let a=getOrders();$('allOrders').innerHTML=a.length?'':'<div class="muted">لا توجد طلبات.</div>';a.forEach(o=>{let d=document.createElement('div');d.className='order';let info=document.createElement('div');info.innerHTML='<b>'+o.id+' — '+o.game+' / '+o.pack+'</b><div class="muted">Player: '+o.player+' · تواصل: '+o.contact+'</div><div class="muted">الإيصال: '+o.receipt+' · '+o.date+'</div>';let actions=document.createElement('div');actions.className='order-actions';['تم الشحن','مرفوض'].forEach(s=>{let b=document.createElement('button');b.textContent=s;b.onclick=()=>{let all=getOrders(),x=all.find(v=>v.id===o.id);if(x){x.status=s;saveOrders(all);renderAdmin();renderOrders()}};actions.appendChild(b)});d.append(info,actions);$('allOrders').appendChild(d)})}
+function renderAdmin(){let a=getOrders();$('allOrders').innerHTML=a.length?'':'<div class="muted">لا توجد طلبات.</div>';a.forEach(o=>{let d=document.createElement('div');d.className='order';let info=document.createElement('div');info.innerHTML='<b>'+o.id+' — '+o.game+' / '+o.pack+'</b><div class="muted">Wallet: '+(o.wallet||'—')+' · Player: '+o.player+' · تواصل: '+o.contact+'</div><div class="muted">الإيصال: '+o.receipt+' · '+o.date+'</div>';let actions=document.createElement('div');actions.className='order-actions';['تم الشحن','مرفوض'].forEach(s=>{let b=document.createElement('button');b.textContent=s;b.onclick=()=>{let all=getOrders(),x=all.find(v=>v.id===o.id);if(x){x.status=s;saveOrders(all);renderAdmin();renderOrders()}};actions.appendChild(b)});d.append(info,actions);$('allOrders').appendChild(d)})}
 function exportOrders(){let blob=new Blob([JSON.stringify(getOrders(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='kashk-orders.json';a.click();URL.revokeObjectURL(a.href)}
-$('year').textContent=new Date().getFullYear();renderOrders();
+$('year').textContent=new Date().getFullYear();refreshAccount();
 </script></body></html>
